@@ -59,7 +59,6 @@ export const deleteProduct = async (req, res, next) => {
 }
 
 export const updateProduct = async (req, res, next) => {
-    const { pid } = req.params;
     try {
       if (!mongoose.Types.ObjectId.isValid(pid)) {
         return CustomError.generateError(ErrorsMessages.OID_INVALID,404,ErrorsNames.OID_INVALID);
@@ -75,7 +74,6 @@ export const updateProduct = async (req, res, next) => {
 }
 
 export const addProduct = async(req,res)=>{
-    console.log(req.body);
     try {
       const response = await productsService.createOne({...req.body, owner: req.user.email});
       res.redirect(`/profile/${response.id}`);

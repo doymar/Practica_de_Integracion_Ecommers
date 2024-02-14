@@ -1,4 +1,6 @@
 import { ProductManager } from "../DAL/daos/mongo/products.mongo.js";
+import CustomError from '../errors/error.generator.js'
+import { ErrorsMessages, ErrorsNames } from '../errors/errors.enum.js';
 
 class ProductsService {
     async findAll(obj) {
@@ -19,7 +21,7 @@ class ProductsService {
     async deleteOne(id,user) {
         const prod = await ProductManager.findById(id)
         if (!prod.owner == user.email || !user.role == 'admin'){
-            return {message: 'You are not the owner of this product'}
+            return CustomError.generateError(ErrorsMessages.INVALID_CREDENTIALS,403,ErrorsNames.INVALID_CREDENTIALS);
         }
         const product = await ProductManager.deleteOne(id);
         return product;

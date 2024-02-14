@@ -8,6 +8,8 @@ import cookieRouter from './routes/cookie.router.js';
 import sessionsRouter from './routes/sessions.router.js';
 import messagesRouter from './routes/messages.router.js'
 import session from 'express-session';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSetup } from './utils/swagger.js'; 
 import { MessageManager } from './DAL/daos/mongo/messages.mongo.js'
 import { errorMiddleware } from './middlewares/errors.middleware.js';
 import { __dirname } from './utils/utils.js';
@@ -56,6 +58,9 @@ app.use('/api/carts',cartsRouter);
 app.use('/api/cookie', cookieRouter);
 app.use('/api/sessions', sessionsRouter);
 app.use('/api/messages', messagesRouter);
+
+//swagger
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSetup));
 
 app.use(errorMiddleware);
 

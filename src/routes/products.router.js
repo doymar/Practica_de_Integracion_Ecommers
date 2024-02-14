@@ -1,3 +1,4 @@
+import passport from "passport";
 import { Router } from "express";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 import { productsMiddleware } from "../middlewares/items.middleware.js";
@@ -10,13 +11,21 @@ router.get('/', findAllProducts);
 router.get('/:pid', findProductById);
 
 router.post("/", 
+passport.authenticate('jwt',{session: false}),
 productsMiddleware, 
 authMiddleware(['admin','premium']), createProduct);
 
-router.delete("/:idProduct", authMiddleware(['admin','premium']), deleteProduct);
+router.delete("/:idProduct", 
+passport.authenticate('jwt',{session: false}),
+authMiddleware(['admin','premium']), deleteProduct);
 
-router.put("/:pid", authMiddleware('admin'), updateProduct);
+router.put("/:pid", 
+passport.authenticate('jwt',{session: false}),
+authMiddleware('admin'), updateProduct);
 
-router.post("/signup", productsMiddleware, authMiddleware(['admin','premium']), addProduct)
+router.post("/signup", 
+passport.authenticate('jwt',{session: false}),
+productsMiddleware, 
+authMiddleware(['admin','premium']), addProduct)
 
 export default router

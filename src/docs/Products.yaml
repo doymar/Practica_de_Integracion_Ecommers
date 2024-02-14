@@ -1,0 +1,208 @@
+paths:
+  /api/products:
+    get:
+      summary: Get all products
+      tags:
+        - Products
+      responses:
+        "200":
+          description: All products
+        "500":
+          description: Server error
+        "400":
+          description: Some data is missing
+    post:
+      tags:
+        - Products
+      summary: Create a new product
+      description: Create a new product
+      operationId: createProduct
+      requestBody:
+        description: Create a new product
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/createProduct'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'          
+        "500":
+          description: Server error
+        "400":
+          description: Some data is missing     
+  /api/products/{pid}:
+    get:
+      summary: Get products by id
+      tags:
+        - Products
+      parameters:
+        - name: id
+          in: path
+          description: Product identifier
+      responses:
+        "200":
+          description: Product found
+          content:
+            application/json:
+              schemas:
+                $ref: "#components/schemas/Product"
+              example:
+                id: qwejlks112FGH22sdgfd
+                title: Phone
+                description: Iphone 15 pro
+                price: 900
+                code: asd123
+                stock: 55
+                category: Tech
+                owner: example@mail.com
+        "500":
+          description: Server error
+        "400":
+          description: Some data is missing
+    put:
+      summary: Update product by id
+      tags:
+        - Products
+      parameters:
+        - name: id
+          in: path
+          description: Product identifier
+      requestBody:
+        content:
+          application/json:
+            schemas:
+              $ref: "#components/requestBodies/updateProduct"
+            example:
+              title: Phone
+              description: Iphone 15 pro
+              price: 900
+              stock: 55
+              category: Tech
+      responses:
+        "200":
+          description: Product updated
+          content:
+            application/json:
+              schemas:
+                $ref: "#components/schemas/Product"
+              example:
+                id: qwejlks112FGH22sdgfd
+                title: Phone
+                description: Iphone 15 pro
+                price: 900
+                code: asd123
+                stock: 55
+                category: Tech
+                owner: example@mail.com
+        "500":
+          description: Server error
+        "400":
+          description: Some data is missing
+    delete:
+      tags:
+        - Products
+      summary: Delete a product
+      description: Delete a product
+      parameters:
+        - name: pid
+          in: path
+          description: Product id to delete
+      responses:
+        "200":
+          description: Product deleted
+        "500":
+          description: Server error
+        "400":
+          description: Invalid product ID
+  /api/products/signup:
+    post:
+      tags:
+        - Products
+      summary: Create a new product
+      description: Create a new product
+      operationId: createProduct
+      requestBody:
+        description: Create a new product
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/createProduct'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'          
+        "500":
+          description: Server error
+        "400":
+          description: Some data is missing 
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        code:
+          type: string  
+        stock:
+          type: number
+        category:
+          type: string
+        owner:
+          type: string
+      example:
+        id: qwejlks112FGH22sdgfd
+        title: Phone
+        description: Iphone 15 pro
+        price: 900
+        code: asd123
+        stock: 55
+        category: Tech
+        owner: example@mail.com
+  requestBodies:
+    updateProduct:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: number  
+        stock:
+          type: number
+        category:
+          type: string
+    createProduct:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        code:
+          type: string  
+        stock:
+          type: number
+        category:
+          type: string
+        owner:
+          type: string

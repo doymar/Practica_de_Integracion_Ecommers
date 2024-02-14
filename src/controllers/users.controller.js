@@ -69,7 +69,6 @@ export const deleteUser = async (req,res,next) =>{
 
 export const changeRole = async (req,res) =>{
     try {
-        //console.log(req.user);
         const {uid} = req.params;
         const role = await usersService.updateRole(uid);
         res.status(200).json({message: "User role changed", role: role});
