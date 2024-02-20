@@ -33,6 +33,8 @@ passport.use('login', new LocalStrategy({usernameField: 'email'}, async(email, p
         if(!isPasswordValid) {
             return done(null, false, { message: "Incorrect email or password." });
         }
+        const fecha = new Date(Date.now());
+        await UserManager.updateOne(user._id, {last_connection: fecha})
         done(null, user);
     } catch (error) {
         done(error)
@@ -52,6 +54,8 @@ passport.use('github', new GithubStrategy(
             //login
             if(userDB){
                 if(userDB.isGithub){
+                    const fecha = new Date(Date.now());
+                    await UserManager.updateOne(userDB._id, {last_connection: fecha})
                     return done(null, userDB)
                 } else {
                     return done(null, false)
@@ -88,6 +92,8 @@ passport.use('google', new GoogleStrategy(
             //login
             if(userDB){
                 if(userDB.isGoogle){
+                    const fecha = new Date(Date.now());
+                    await UserManager.updateOne(userDB._id, {last_connection: fecha})
                     return done(null, userDB)
                 } else {
                     return done(null, false)

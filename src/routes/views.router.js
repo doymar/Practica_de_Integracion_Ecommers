@@ -99,4 +99,12 @@ router.get("/loggerTest", (req, res) => {
     res.send("Prueba de loggers")
 });
 
+router.get("/documents", (req, res) => {
+    if (!req.user) {
+        return res.redirect("/login")
+    }
+    const {id} = req.user; 
+    res.render("documents", {uid: id});
+  });
+
 export default router;

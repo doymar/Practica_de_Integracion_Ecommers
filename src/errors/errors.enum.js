@@ -9,6 +9,7 @@ export const ErrorsMessages = {
     OID_INVALID: 'Invalid Object ID',
     PRODUCT_CODE_ALREADY_USED: 'Product code already used',
     CART_OR_PRODUCT_NOT_FOUND: 'Cart or product not found with the id provided',
+    USER_DOCUMENTS_NOT_FOUND: 'The user has not finished processing their documentation',
 };
 
 export const ErrorsNames = {
@@ -22,4 +23,5 @@ export const ErrorsNames = {
     OID_INVALID: 'INVALID OBJECT ID',
     PRODUCT_CODE_ALREADY_USED: 'PRODUCT_CODE_ALREADY_USED',
     CART_OR_PRODUCT_NOT_FOUND: 'CART_OR_PRODUCT_NOT_FOUND',
+    USER_DOCUMENTS_NOT_FOUND: 'USER_DOCUMENTS_NOT_FOUND',
 };

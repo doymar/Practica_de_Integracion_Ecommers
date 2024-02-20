@@ -3,6 +3,8 @@ import { CartManager } from "../DAL/daos/mongo/carts.mongo.js";
 import UsersRequestDto from "../DAL/dtos/user-request.dto.js";
 import UsersResponseDto from "../DAL/dtos/user-response.dto.js";
 import { hashData } from "../utils/utils.js";
+import CustomError from '../errors/error.generator.js'
+import { ErrorsMessages, ErrorsNames } from '../errors/errors.enum.js';
 
 class UsersService {
     async findAll() {
@@ -39,7 +41,14 @@ class UsersService {
 
     async updateRole(id) {
         const user = await UserManager.findById(id)
+        const docs = user.documents
+        const dni = docs.find((d) => d.name === "dni");
+        const bank = docs.find((d) => d.name === "bank");
+        const adddress = docs.find((d) => d.name === "address");
         if(user.role === 'user'){
+            if(!dni || !bank || !adddress){
+                return CustomError.generateError(ErrorsMessages.USER_DOCUMENTS_NOT_FOUND,400,ErrorsNames.USER_DOCUMENTS_NOT_FOUND);
+            }
             user.role = 'premium'
         } else {
             user.role = 'user'
@@ -47,6 +56,26 @@ class UsersService {
         await user.save();
         return user.role;
     }
+
+    async saveUserDocuments(id, dni, address, bank) {
+        const savedDocuments = await UserManager.updateOne(id, {
+            documents: [
+            {
+                name: "dni",
+                reference: dni[0].path,
+            },
+            {
+                name: "address",
+                reference: address[0].path,
+            },
+            {
+                name: "bank",
+                reference: bank[0].path,
+            },
+            ],
+        });
+        return savedDocuments;
+  };
 }
 
 export const usersService = new UsersService();

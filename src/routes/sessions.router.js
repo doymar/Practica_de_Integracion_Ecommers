@@ -47,6 +47,9 @@ router.get('/auth/google/callback',
   });
 
 router.get("/signout", async(req,res) => {
+    const id = req.session.passport.user
+    const fecha = new Date(Date.now());
+    await UserManager.updateOne(id,{last_connection: fecha})
     req.session.destroy(()=>{
         res.redirect("/login")
     })
@@ -54,7 +57,6 @@ router.get("/signout", async(req,res) => {
 
 router.post('/password_reset', async(req,res) =>{
   const { email } = req.body;
-  console.log(email);
   try {
     const user = await UserManager.findByEmail(email);
     if (!user) {

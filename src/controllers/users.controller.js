@@ -76,3 +76,14 @@ export const changeRole = async (req,res) =>{
         res.status(500).json({error: err.message});
     }
 }
+
+export const saveUserDocuments = async (req,res) =>{
+    try {
+        const { uid } = req.params;
+        const { dni, address, bank } = req.files;
+        await usersService.saveUserDocuments(uid, dni, address, bank);
+        res.status(200).json({message: 'Documents saved'});
+    } catch (error) {
+        res.status(500).json({error: err.message});
+    }
+}
